@@ -1,6 +1,6 @@
 package com.brunom24.sfgpetclinic.model;
 
-public class PetType {
+public class PetType extends BaseEntity {
 
 	private String name;
 
