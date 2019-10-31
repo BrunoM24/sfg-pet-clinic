@@ -1,11 +1,11 @@
 package com.brunom24.sfgpetclinic.services.map;
 
 import com.brunom24.sfgpetclinic.model.Vet;
-import com.brunom24.sfgpetclinic.services.CrudService;
+import com.brunom24.sfgpetclinic.services.VetService;
 
 import java.util.Set;
 
-public class VetServiceMap extends AbstractMapService<Vet, Long> implements CrudService<Vet, Long> {
+public class VetServiceMap extends AbstractMapService<Vet, Long> implements VetService {
 
 	@Override
 	public Set<Vet> findAll() {
