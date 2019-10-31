@@ -2,9 +2,11 @@ package com.brunom24.sfgpetclinic.services.map;
 
 import com.brunom24.sfgpetclinic.model.Pet;
 import com.brunom24.sfgpetclinic.services.PetService;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class PetServiceMap extends AbstractMapService<Pet, Long> implements PetService {
 
 	@Override
