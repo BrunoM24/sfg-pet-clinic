@@ -1,13 +1,13 @@
 package com.brunom24.sfgpetclinic.services.map;
 
 import com.brunom24.sfgpetclinic.model.Specialty;
-import com.brunom24.sfgpetclinic.services.SpecialtiesService;
+import com.brunom24.sfgpetclinic.services.SpecialtyService;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
-public class SpecialtiesMapService extends AbstractMapService<Specialty, Long> implements SpecialtiesService {
+public class SpecialtyMapService extends AbstractMapService<Specialty, Long> implements SpecialtyService {
 
     @Override
     public Set<Specialty> findAll() {
