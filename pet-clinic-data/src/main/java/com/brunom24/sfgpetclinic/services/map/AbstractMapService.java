@@ -31,13 +31,13 @@ public abstract class AbstractMapService<T extends BaseEntity, ID extends Long> 
 		return object;
 	}
 
-	void deleteById(ID id) {
-		map.remove(id);
-	}
-
 	void delete(T object) {
 //		map.entrySet().removeIf(Predicate.isEqual(object));
 		map.entrySet().removeIf(entry -> entry.getValue().equals(object));
+	}
+
+	void deleteById(ID id) {
+		map.remove(id);
 	}
 
 	private Long getNextId(){
