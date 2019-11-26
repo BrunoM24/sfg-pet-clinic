@@ -4,31 +4,40 @@ import java.time.LocalDate;
 
 public class Pet extends BaseEntity {
 
-	private PetType petType;
-	private Owner owner;
-	private LocalDate birthDate;
+    private String name;
+    private PetType petType;
+    private Owner owner;
+    private LocalDate birthDate;
 
-	public PetType getPetType() {
-		return petType;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setPetType(PetType petType) {
-		this.petType = petType;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Owner getOwner() {
-		return owner;
-	}
+    public PetType getPetType() {
+        return petType;
+    }
 
-	public void setOwner(Owner owner) {
-		this.owner = owner;
-	}
+    public void setPetType(PetType petType) {
+        this.petType = petType;
+    }
 
-	public LocalDate getBirthDate() {
-		return birthDate;
-	}
+    public Owner getOwner() {
+        return owner;
+    }
 
-	public void setBirthDate(LocalDate birthDate) {
-		this.birthDate = birthDate;
-	}
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
 }
