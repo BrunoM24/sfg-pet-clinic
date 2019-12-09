@@ -14,54 +14,54 @@ import java.util.Set;
 @Profile({"default", "map"})
 public class OwnerMapService extends AbstractMapService<Owner, Long> implements OwnerService {
 
-	private final PetService petService;
-	private final PetTypeService petTypeService;
+    private final PetService petService;
+    private final PetTypeService petTypeService;
 
-	public OwnerMapService(PetService petService, PetTypeService petTypeService) {
-		this.petService = petService;
-		this.petTypeService = petTypeService;
-	}
+    public OwnerMapService(PetService petService, PetTypeService petTypeService) {
+        this.petService = petService;
+        this.petTypeService = petTypeService;
+    }
 
-	@Override
-	public Set<Owner> findAll() {
-		return super.findAll();
-	}
+    @Override
+    public Set<Owner> findAll() {
+        return super.findAll();
+    }
 
-	@Override
-	public void deleteById(Long id) {
-		super.deleteById(id);
-	}
+    @Override
+    public void deleteById(Long id) {
+        super.deleteById(id);
+    }
 
-	@Override
-	public void delete(Owner object) {
-		super.delete(object);
-	}
+    @Override
+    public void delete(Owner object) {
+        super.delete(object);
+    }
 
-	@Override
-	public Owner save(Owner owner) {
-		if (owner != null){
-			if (owner.getPets() != null){
-				owner.getPets().forEach(pet -> {
-					if (pet.getPetType() != null){
-						if (pet.getPetType().getId() == null){
-							pet.setPetType(petTypeService.save(pet.getPetType()));
-						}
-					}else {
-						throw new RuntimeException("Pet Type is required");
-					}
+    @Override
+    public Owner save(Owner owner) {
+        if (owner != null) {
+            if (owner.getPets() != null) {
+                owner.getPets().forEach(pet -> {
+                    if (pet.getPetType() != null) {
+                        if (pet.getPetType().getId() == null) {
+                            pet.setPetType(petTypeService.save(pet.getPetType()));
+                        }
+                    } else {
+                        throw new RuntimeException("Pet Type is required");
+                    }
 
-					if (pet.getId() == null){
-						Pet savedPet = petService.save(pet);
-						pet.setId(savedPet.getId());
-					}
-				});
-			}
+                    if (pet.getId() == null) {
+                        Pet savedPet = petService.save(pet);
+                        pet.setId(savedPet.getId());
+                    }
+                });
+            }
 
-			return super.save(owner);
-		}else {
-			return null;
-		}
-	}
+            return super.save(owner);
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public Owner findById(Long id) {
@@ -70,6 +70,11 @@ public class OwnerMapService extends AbstractMapService<Owner, Long> implements 
 
     @Override
     public Owner findByLastName(String lastName) {
-        return null;
+        return this.findAll()
+                .stream()
+                .filter(owner -> owner.getLastName().equalsIgnoreCase(lastName))
+                .findFirst()
+                .orElse(null);
     }
+
 }
