@@ -26,6 +26,11 @@ public class OwnerSDJpaService implements OwnerService {
     }
 
     @Override
+    public Owner findById(Long id) {
+        return ownerRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public Owner findByLastName(String lastName) {
         return ownerRepository.findByLastName(lastName);
     }
@@ -41,8 +46,8 @@ public class OwnerSDJpaService implements OwnerService {
     }
 
     @Override
-    public Owner findById(Long id) {
-        return ownerRepository.findById(id).orElse(null);
+    public Set<Owner> findAllByLastName(String lastName) {
+        return ownerRepository.findAllByLastNameContainingIgnoreCase(lastName);
     }
 
     @Override

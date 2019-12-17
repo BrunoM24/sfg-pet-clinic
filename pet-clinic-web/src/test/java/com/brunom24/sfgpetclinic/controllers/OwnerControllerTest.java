@@ -42,32 +42,51 @@ class OwnerControllerTest {
     }
 
     @Test
-    void listOwners() throws Exception {
-        when(ownerService.findAll()).thenReturn(owners);
+    void findOwners() throws Exception {
+        mockMvc.perform(get("/owners/find"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/findOwners"))
+                .andExpect(model().attributeExists("owner"));
+
+        verifyZeroInteractions(ownerService);
+    }
+
+    @Test
+    void processFindFormReturnOne() throws Exception {
+        Set<Owner> ownerSet = new HashSet<>();
+        ownerSet.add(Owner.builder().id(1L).build());
+
+        when(ownerService.findAllByLastName(anyString())).thenReturn(ownerSet);
+
+        mockMvc.perform(get("/owners"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/owners/1"))
+                .andExpect(model().attributeExists("owner"));
+
+        verify(ownerService).findAllByLastName(anyString());
+    }
+
+    @Test
+    void processFindFormReturnMany() throws Exception {
+        when(ownerService.findAllByLastName(anyString())).thenReturn(owners);
 
         mockMvc.perform(get("/owners"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners/index"))
+                .andExpect(view().name("owners/ownersList"))
                 .andExpect(model().attribute("owners", hasSize(2)));
+
+        verify(ownerService).findAllByLastName(anyString());
     }
 
     @Test
-    void listOwnersByIndex() throws Exception {
-        when(ownerService.findAll()).thenReturn(owners);
+    void processFindFormReturnError() throws Exception {
+        when(ownerService.findAllByLastName(anyString())).thenReturn(new HashSet<>());
 
-        mockMvc.perform(get("/owners/index"))
+        mockMvc.perform(get("/owners"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners/index"))
-                .andExpect(model().attribute("owners", hasSize(2)));
-    }
-
-    @Test
-    void findOwners() throws Exception {
-        mockMvc.perform(get("/owners/find"))
-                .andExpect(status().isOk()).andExpect(view()
-                .name("notImplemented"));
-
-        verifyZeroInteractions(ownerService);
+                .andExpect(model().hasErrors())
+                .andExpect(model().attributeHasFieldErrorCode("owner", "lastName", "notFound"))
+                .andExpect(view().name("owners/findOwners"));
     }
 
     @Test

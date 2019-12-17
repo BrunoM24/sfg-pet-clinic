@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Profile({"default", "map"})
@@ -23,18 +24,30 @@ public class OwnerMapService extends AbstractMapService<Owner, Long> implements 
     }
 
     @Override
+    public Owner findById(Long id) {
+        return super.findById(id);
+    }
+
+    @Override
+    public Owner findByLastName(String lastName) {
+        return this.findAll()
+                .stream()
+                .filter(owner -> owner.getLastName().equalsIgnoreCase(lastName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
     public Set<Owner> findAll() {
         return super.findAll();
     }
 
     @Override
-    public void deleteById(Long id) {
-        super.deleteById(id);
-    }
-
-    @Override
-    public void delete(Owner object) {
-        super.delete(object);
+    public Set<Owner> findAllByLastName(String lastName) {
+        return findAll()
+                .stream()
+                .filter(owner -> owner.getLastName().toLowerCase().contains(lastName.toLowerCase()))
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -64,17 +77,13 @@ public class OwnerMapService extends AbstractMapService<Owner, Long> implements 
     }
 
     @Override
-    public Owner findById(Long id) {
-        return super.findById(id);
+    public void delete(Owner object) {
+        super.delete(object);
     }
 
     @Override
-    public Owner findByLastName(String lastName) {
-        return this.findAll()
-                .stream()
-                .filter(owner -> owner.getLastName().equalsIgnoreCase(lastName))
-                .findFirst()
-                .orElse(null);
+    public void deleteById(Long id) {
+        super.deleteById(id);
     }
 
 }
