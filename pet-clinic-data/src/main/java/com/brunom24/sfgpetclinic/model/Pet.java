@@ -49,4 +49,12 @@ public class Pet extends BaseEntity {
         }
     }
 
+    public void addVisit(Visit visit) {
+        if (visits == null) {
+            visits = new HashSet<>();
+        }
+
+        visit.setPet(this);
+        visits.add(visit);
+    }
 }
